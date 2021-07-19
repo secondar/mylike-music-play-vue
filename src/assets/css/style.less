@@ -1,0 +1,37 @@
+#app {
+  #nav {
+    text-align: center;
+    margin-top: 1rem;
+
+    ul {
+      display        : flex;
+      justify-content: center;
+
+      li {
+        list-style : none;
+        width      : 3.5rem;
+        cursor     : pointer;
+        margin-left: 1rem;
+      }
+
+      li:hover {
+        border-bottom: 2px solid rgb(96, 230, 240);
+      }
+
+      .current {
+        border-bottom: 2px solid rgb(96, 175, 240);
+      }
+    }
+  }
+}
+
+#audio-main {
+  margin-top: 1rem;
+  text-align: center;
+  .aplayer-component {
+    position: fixed;
+    bottom  : 50px;
+    width   : 90%;
+    margin-left: 5%;
+  }
+}

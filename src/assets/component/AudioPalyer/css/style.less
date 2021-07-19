@@ -1,0 +1,100 @@
+.audio-info {
+  height         : 92px;
+  width          : 100%;
+  display        : flex;
+  justify-content: flex-start;
+  box-shadow     : 0 2px 2px 0 rgba(0, 0, 0, 0.07), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  .cover {
+    width           : 92px;
+    height          : 92px;
+    min-width       : 92px;
+    min-height      : 92px;
+    background-image: url("https://www.bugquit.com/wp-content/uploads/2019/12/logo-1.png");
+    background-size : cover;
+
+    .state {
+      height     : 50%;
+      width      : 50%;
+      margin-top : 50%;
+      margin-left: 25%;
+      line-height: 50%;
+      .iconfont {
+        font-size: 2.5rem !important;
+        color    : #fff;
+      }
+      span{
+        cursor: pointer;
+      }
+    }
+  }
+
+  .control {
+    width       : 100%;
+    text-align  : left;
+    padding     : 1.3rem;
+    padding-left: 1rem;
+    .head {
+      display        : flex;
+      justify-content: space-between;
+
+      .info {
+        font-size: 10px;
+        margin-bottom  : 0.5%;
+        width          : 90%;
+        display        : flex;
+        justify-content: space-between;
+        .title-left{
+          width: 5rem;
+        }
+        .title-marquee {
+          span {
+            color: #24292e;
+          }
+
+          .span {
+            color: #666;
+          }
+        }
+      }
+
+      .control-head {
+        color       : #666;
+        margin-right: 0.7rem;
+
+        span {
+          margin-left: 5%;
+          cursor     : pointer;
+        }
+      }
+    }
+
+    .footer {
+      display        : flex;
+      justify-content: space-between;
+
+      .left {
+        width: 100%;
+        .audio-meter {
+          cursor: pointer;
+          width : 100%;
+        }
+      }
+      .right {
+        display        : flex;
+        justify-content: space-between;
+        font-size      : 12px;
+        .time,
+        .loop,
+        .volume {
+          margin-left: 0.5rem;
+        }
+        .time{
+          min-width: 66px;
+        }
+      }
+      span{
+        cursor: pointer;
+      }
+    }
+  }
+}
