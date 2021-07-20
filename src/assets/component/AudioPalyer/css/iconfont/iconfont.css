@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1626691214154') format('truetype');
+  src: url('iconfont.ttf?t=1626788884580') format('truetype');
 }
 
 .iconfont {
@@ -61,6 +61,10 @@
 
 .icon-suijibofang:before {
   content: "\e6a0";
+}
+
+.icon-guanbi:before {
+  content: "\e6be";
 }
 
 .icon-zantingtingzhi:before {

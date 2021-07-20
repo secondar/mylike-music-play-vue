@@ -1,124 +1,208 @@
-.audio-lrc {
-  overflow: hidden;
-  text-align: center;
-  .content {
-    height: 100%;
-    padding-top: 18%;
-    .active {
-      color: rgb(0, 83, 236);
-    }
-  }
-}
-.audio-info {
-  height: 92px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.07), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
-  .cover {
-    width: 92px;
-    height: 92px;
-    min-width: 92px;
-    min-height: 92px;
-    background-image: url("https://www.bugquit.com/wp-content/uploads/2019/12/logo-1.png");
-    background-size: cover;
+.audio-main {
+  .audio-lrc {
+    overflow  : hidden;
+    text-align: center;
 
-    .state {
-      height: 50%;
-      width: 50%;
-      margin-top: 50%;
-      margin-left: 25%;
-      line-height: 50%;
-      .iconfont {
-        font-size: 2.5rem !important;
-        color: #fff;
-      }
-      span {
-        cursor: pointer;
+    .content {
+      height     : 100%;
+      padding-top: 18%;
+      color      : #ffffff81;
+
+      .active {
+        color: rgb(255, 255, 255);
       }
     }
   }
-  .control {
-    width: 100%;
-    text-align: left;
-    padding: 1.3rem;
-    padding-left: 1rem;
-    .head {
-      display: flex;
-      justify-content: space-between;
 
-      .info {
-        font-size: 10px;
-        margin-bottom: 0.5%;
-        width: 90%;
-        display: flex;
-        justify-content: space-between;
-        .title-left {
-          width: 5rem;
+  .audio-info {
+    height         : 92px;
+    width          : 100%;
+    display        : flex;
+    justify-content: flex-start;
+    box-shadow     : 0 2px 2px 0 rgba(0, 0, 0, 0.07), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+    background     : rgba(241, 240, 240, 0.11);
+    border-radius  : 5px;
+
+    .cover {
+      width           : 92px;
+      height          : 92px;
+      min-width       : 92px;
+      min-height      : 92px;
+      background-image: url("https://www.bugquit.com/wp-content/uploads/2019/12/logo-1.png");
+      background-size : cover;
+
+      .state {
+        height     : 50%;
+        width      : 50%;
+        margin-top : 50%;
+        margin-left: 25%;
+        line-height: 50%;
+
+        .iconfont {
+          font-size: 2.5rem !important;
+          color    : #fff;
         }
-        .title-marquee {
-          span {
-            color: #24292e;
-          }
-
-          .span {
-            color: #666;
-          }
-        }
-      }
-
-      .control-head {
-        color: #666;
-        margin-right: 0.7rem;
 
         span {
-          margin-left: 5%;
           cursor: pointer;
         }
       }
     }
-    .footer {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 1rem;
-      .left {
-        width: 100%;
-        .audio-meter {
-          cursor: pointer;
-          width: 100%;
+
+    .control {
+      width       : 100%;
+      text-align  : left;
+      padding     : 1.3rem;
+      padding-left: 1rem;
+
+      .head {
+        display        : flex;
+        justify-content: space-between;
+
+        .info {
+          font-size      : 13px;
+          margin-bottom  : 0.5%;
+          width          : 90%;
+          display        : flex;
+          justify-content: space-between;
+
+          .title-left {
+            width      : 5rem;
+            font-size  : 10px;
+            padding-top: 5px;
+            color      : #ffffffad;
+          }
+
+          .title-marquee {
+            span {
+              color: #ffffffad;
+            }
+
+            .span {
+              color: rgba(255, 255, 255, 0.541);
+            }
+          }
+        }
+
+        .control-head {
+          color       : #666;
+          margin-right: 0.7rem;
+
+          span {
+            margin-left: 5%;
+            cursor     : pointer;
+            color      : #ffffffad;
+
+          }
         }
       }
-      .right {
+
+      .footer {
+        display        : flex;
+        justify-content: space-between;
+        margin-top     : 1rem;
+
+        .left {
+          width: 100%;
+
+          .audio-meter {
+            cursor: pointer;
+            width : 100%;
+          }
+        }
+
+        .right {
+          display        : flex;
+          justify-content: space-between;
+          font-size      : 12px;
+
+          .time,
+          .loop,
+          .volume {
+            margin-left: 0.5rem;
+            color      : #ffffffad;
+
+          }
+
+          .time {
+            min-width: 66px;
+          }
+
+          .volume {
+            .volume-meter-div {
+              width: 0px;
+            }
+            .volume-meter {
+              position         : relative;
+              top              : -60px;
+              left             : -26px;
+              width            : 66px;
+              transform        : rotate(-90deg);
+              -ms-transform    : rotate(-90deg);
+              /* IE 9 */
+              -moz-transform   : rotate(-90deg);
+              /* Firefox */
+              -webkit-transform: rotate(-90deg);
+              /* Safari 和 Chrome */
+              -o-transform     : rotate(-90deg);
+              /* Opera */
+              height: 10px;
+            }
+          }
+        }
+
+        span {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .audio-list {
+    height       : 500px;
+    box-shadow   : 0 2px 2px 0 rgba(0, 0, 0, 0.07), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+    background   : rgba(241, 240, 240, 0.11);
+    border-radius: 5px;
+    max-width    : 360px;
+    width        : 100%;
+    position     : absolute;
+    top          : 0px;
+    right        : 0px;
+    z-index      : 1999;
+
+    ul {
+      li {
+        list-style   : none;
+        padding-left : 0.5rem;
+        padding-right: 0.5rem;
+        // margin-top   : 0.5rem;
+        .list {
+          display        : flex;
+          justify-content: space-between;
+          cursor         : pointer;
+          box-shadow     : 0 2px 2px 0 rgba(0, 0, 0, 0.07), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+          padding-left   : 0.5rem;
+          padding-right  : 0.5rem;
+          color: rgba(255, 255, 255, 0.575);
+          font-size: 13.9px;
+        }
+
+      }
+      .close {
         display: flex;
         justify-content: space-between;
-        font-size: 12px;
-        .time,
-        .loop,
-        .volume {
-          margin-left: 0.5rem;
+        color: #ffffffad;
+        margin-top   : 0.5rem;
+        height: 1.8rem;
+        .iconfont{
+          font-size: 1.5rem;
+          cursor         : pointer;
+          position: relative;
+          top: -10px;
         }
-        .time {
-          min-width: 66px;
+        .left{
+          width: 90%;
         }
-        .volume {
-          .volume-meter-div {
-            width: 1px;
-          }
-          .volume-meter {
-            position: relative;
-            top: -60px;
-            left: -26px;
-            width: 66px;
-            transform: rotate(-90deg);
-            -ms-transform: rotate(-90deg); /* IE 9 */
-            -moz-transform: rotate(-90deg); /* Firefox */
-            -webkit-transform: rotate(-90deg); /* Safari 和 Chrome */
-            -o-transform: rotate(-90deg); /* Opera */
-          }
-        }
-      }
-      span {
-        cursor: pointer;
       }
     }
   }

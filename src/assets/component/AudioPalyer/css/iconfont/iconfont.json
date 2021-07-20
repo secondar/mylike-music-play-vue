@@ -97,6 +97,13 @@
       "unicode_decimal": 59040
     },
     {
+      "icon_id": "20587098",
+      "name": "关闭",
+      "font_class": "guanbi",
+      "unicode": "e6be",
+      "unicode_decimal": 59070
+    },
+    {
       "icon_id": "21151020",
       "name": "暂停",
       "font_class": "zantingtingzhi",

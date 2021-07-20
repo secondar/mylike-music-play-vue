@@ -1,30 +1,89 @@
 <template>
-  <div>
+  <div
+    class="audio-main"
+    ref="barparent"
+    v-bind:style="{ width: this.device.width }"
+  >
     <div
       class="audio-lrc"
       v-bind:style="{ height: height - 92 - 100 + 'px' }"
       style="margin-top: 50px; margin-bottom: 50px"
     >
-      <!-- v-bind:style="device.translateYStyle" -->
       <div
         class="content"
         v-bind:style="{ transform: 'translateY(-' + device.translateY + 'px)' }"
-        v-if="device.lrc.length > 0"
+        v-if="device.lrc.length > 0 && !device.isShowList"
       >
         <p
           v-for="(item, index) in device.lrc"
           :key="index"
-          v-bind:class="{ active: device.lrcShowKey==index }"
+          v-bind:class="{ active: device.lrcShowKey == index }"
         >
           {{ item.lrc }}
         </p>
       </div>
-      <div class="content" v-else>
+      <div class="content" v-else-if="!device.isShowList">
         <p>MyLikeMusic</p>
       </div>
     </div>
+
+    <div
+      v-if="device.isShowList"
+      v-bind:style="{ top: device.clientHeight + 'px' }"
+      class="audio-list"
+    >
+      <ul>
+        <li class="close">
+          <div class="left"></div>
+          <div
+            class="icon iconfont"
+            @click="
+              device.isShowList
+                ? (device.isShowList = false)
+                : (device.isShowList = true)
+            "
+          >
+            &#xe6be;
+          </div>
+        </li>
+        <li v-for="(item, index) in device.list" :key="index">
+          <div class="list" @click="PlayIndex(index)">
+            <div class="left">{{ item.title }}</div>
+            <div class="right">{{ item.singer }}</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
     <div class="audio-info">
-      <div class="cover">
+      <div
+        v-if="
+          device.list[device.index].cover != undefined &&
+          device.list[device.index].cover != null &&
+          device.list[device.index].cover != ''
+        "
+        class="cover"
+        v-bind:style="{
+          'background-image': 'url(' + device.list[device.index].cover + ')',
+        }"
+      >
+        <div class="state">
+          <span @click="Paly" v-if="!device.isPaly" class="icon iconfont"
+            >&#xe60c;</span
+          >
+          <span @click="Paly" v-else-if="device.isPause" class="icon iconfont"
+            >&#xe60c;</span
+          >
+          <span @click="Paly" v-else class="icon iconfont">&#xe668;</span>
+        </div>
+      </div>
+      <div
+        v-else
+        class="cover"
+        v-bind:style="{
+          'background-image': 'url(' + device.list[device.index].cover + ')',
+        }"
+      >
         <div class="state">
           <span @click="Paly" v-if="!device.isPaly" class="icon iconfont"
             >&#xe60c;</span
@@ -62,7 +121,15 @@
             >
             <span @click="Paly" v-else class="icon iconfont">&#xe65a;</span>
             <span @click="Next()" class="icon iconfont">&#xe61f;</span>
-            <span class="icon iconfont">&#xe660;</span>
+            <span
+              @click="
+                device.isShowList
+                  ? (device.isShowList = false)
+                  : (device.isShowList = true)
+              "
+              class="icon iconfont"
+              >&#xe660;</span
+            >
           </div>
         </div>
         <div class="footer">
@@ -159,11 +226,13 @@
   </div>
 </template>
 <script>
+import elementResizeDetectorMaker from "element-resize-detector";
 export default {
   name: "AudioPalyer",
   props: {
     height: Number,
     list: Array,
+    width: String,
   },
   data() {
     return {
@@ -183,25 +252,34 @@ export default {
         volume: 100,
         loop: 1, //1=顺序播放，2=随机播放，3=循环播放，4=单曲循环，5=播放完成后停止
         lrc: [],
-        lrcShowKey:0,
+        lrcShowKey: 0,
         // translateYStyle: {transform: 'translateY(-500px)'},
         translateY: 0,
+        width:
+          this.width != undefined && this.width != null && this.width != ""
+            ? this.width
+            : "100%",
+        clientHeight: 0,
+        isShowList: false,
       },
     };
+  },
+  mounted() {
+    this.watchSize();
   },
   methods: {
     //暂停/播放
     Paly() {
       if (!this.device.isPaly) {
         //首次播放
-        this.device.lrcShowKey = 0
+        this.device.lrcShowKey = 0;
         this.setAudioSrc();
         if (this.device.audio.play()) {
           this.device.isPaly = true;
           this.updateMeter();
         }
         //解析歌词
-         this.device.lrc = [];
+        this.device.lrc = [];
         if (
           this.device.list[this.device.index].lrc != undefined &&
           this.device.list[this.device.index].lrc != null &&
@@ -273,7 +351,7 @@ export default {
         let index = this.device.lrc.length - 1;
         for (let i = index; i > this.device.lrcShowKey; i--) {
           if (this.device.currentTime >= this.device.lrc[i].time) {
-            this.device.lrcShowKey = i
+            this.device.lrcShowKey = i;
             this.device.translateY = 19 * this.device.lrcShowKey;
             break;
           }
@@ -292,7 +370,7 @@ export default {
         let index = this.device.lrc.length - 1;
         for (let i = index; i > this.device.lrcShowKey; i--) {
           if (this.device.currentTime >= this.device.lrc[i].time) {
-            this.device.lrcShowKey = i
+            this.device.lrcShowKey = i;
             this.device.translateY = 19 * this.device.lrcShowKey;
             break;
           }
@@ -387,6 +465,20 @@ export default {
     //设置音量
     setVolume() {
       this.device.audio.volume = this.device.volume * 0.01;
+    },
+    //监听UI变化
+    watchSize() {
+      var erd = elementResizeDetectorMaker();
+      erd.listenTo(this.$refs.barparent, (element) => {
+        var height = element.offsetHeight;
+        this.device.clientHeight = height - 500 - 93;
+      });
+    },
+    //播放指定的曲子
+    PlayIndex(index) {
+      this.device.index = index;
+      this.device.isPaly = false;
+      this.Paly();
     },
   },
 };

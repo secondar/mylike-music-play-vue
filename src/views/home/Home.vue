@@ -1,6 +1,6 @@
 <template>
   <div id="audio-main">
-    <AudioPalyer :height="clientHeight - 50" :list="list"/>
+    <AudioPalyer class="AudioPalyer" :height="clientHeight - 60" :list="list" />
   </div>
 </template>
 <script>
@@ -45,7 +45,7 @@ export default {
   watch: {
     clientHeight(newValue, oldValue) {
       if (newValue) {
-        console.log(this.clientHeight);
+        // console.log(this.clientHeight);
       }
     },
   },
