@@ -1,49 +1,59 @@
+.audio-lrc {
+  overflow: hidden;
+  text-align: center;
+  .content {
+    height: 100%;
+    padding-top: 18%;
+    .active {
+      color: rgb(0, 83, 236);
+    }
+  }
+}
 .audio-info {
-  height         : 92px;
-  width          : 100%;
-  display        : flex;
+  height: 92px;
+  width: 100%;
+  display: flex;
   justify-content: flex-start;
-  box-shadow     : 0 2px 2px 0 rgba(0, 0, 0, 0.07), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.07), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
   .cover {
-    width           : 92px;
-    height          : 92px;
-    min-width       : 92px;
-    min-height      : 92px;
+    width: 92px;
+    height: 92px;
+    min-width: 92px;
+    min-height: 92px;
     background-image: url("https://www.bugquit.com/wp-content/uploads/2019/12/logo-1.png");
-    background-size : cover;
+    background-size: cover;
 
     .state {
-      height     : 50%;
-      width      : 50%;
-      margin-top : 50%;
+      height: 50%;
+      width: 50%;
+      margin-top: 50%;
       margin-left: 25%;
       line-height: 50%;
       .iconfont {
         font-size: 2.5rem !important;
-        color    : #fff;
+        color: #fff;
       }
-      span{
+      span {
         cursor: pointer;
       }
     }
   }
-
   .control {
-    width       : 100%;
-    text-align  : left;
-    padding     : 1.3rem;
+    width: 100%;
+    text-align: left;
+    padding: 1.3rem;
     padding-left: 1rem;
     .head {
-      display        : flex;
+      display: flex;
       justify-content: space-between;
 
       .info {
         font-size: 10px;
-        margin-bottom  : 0.5%;
-        width          : 90%;
-        display        : flex;
+        margin-bottom: 0.5%;
+        width: 90%;
+        display: flex;
         justify-content: space-between;
-        .title-left{
+        .title-left {
           width: 5rem;
         }
         .title-marquee {
@@ -58,41 +68,56 @@
       }
 
       .control-head {
-        color       : #666;
+        color: #666;
         margin-right: 0.7rem;
 
         span {
           margin-left: 5%;
-          cursor     : pointer;
+          cursor: pointer;
         }
       }
     }
-
     .footer {
-      display        : flex;
+      display: flex;
       justify-content: space-between;
-
+      margin-top: 1rem;
       .left {
         width: 100%;
         .audio-meter {
           cursor: pointer;
-          width : 100%;
+          width: 100%;
         }
       }
       .right {
-        display        : flex;
+        display: flex;
         justify-content: space-between;
-        font-size      : 12px;
+        font-size: 12px;
         .time,
         .loop,
         .volume {
           margin-left: 0.5rem;
         }
-        .time{
+        .time {
           min-width: 66px;
         }
+        .volume {
+          .volume-meter-div {
+            width: 1px;
+          }
+          .volume-meter {
+            position: relative;
+            top: -60px;
+            left: -26px;
+            width: 66px;
+            transform: rotate(-90deg);
+            -ms-transform: rotate(-90deg); /* IE 9 */
+            -moz-transform: rotate(-90deg); /* Firefox */
+            -webkit-transform: rotate(-90deg); /* Safari 和 Chrome */
+            -o-transform: rotate(-90deg); /* Opera */
+          }
+        }
       }
-      span{
+      span {
         cursor: pointer;
       }
     }

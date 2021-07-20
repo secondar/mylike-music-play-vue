@@ -1,5 +1,28 @@
 <template>
   <div>
+    <div
+      class="audio-lrc"
+      v-bind:style="{ height: height - 92 - 100 + 'px' }"
+      style="margin-top: 50px; margin-bottom: 50px"
+    >
+      <!-- v-bind:style="device.translateYStyle" -->
+      <div
+        class="content"
+        v-bind:style="{ transform: 'translateY(-' + device.translateY + 'px)' }"
+        v-if="device.lrc.length > 0"
+      >
+        <p
+          v-for="(item, index) in device.lrc"
+          :key="index"
+          v-bind:class="{ active: device.lrcShowKey==index }"
+        >
+          {{ item.lrc }}
+        </p>
+      </div>
+      <div class="content" v-else>
+        <p>MyLikeMusic</p>
+      </div>
+    </div>
     <div class="audio-info">
       <div class="cover">
         <div class="state">
@@ -16,11 +39,17 @@
         <div class="head">
           <div class="info">
             <div class="title-left">正在播放：</div>
-            <marquee class="title-marquee"
-              ><span>{{device.list[device.index].title}}</span>
-              <span class="span">&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;</span
-              ><span class="span">{{device.list[device.index].singer}}</span></marquee
-            >
+            <marquee class="title-marquee">
+              <span v-if="device.list.length > 0">{{
+                device.list[device.index].title
+              }}</span>
+              <span v-if="device.list.length > 0" class="span"
+                >&nbsp;-&nbsp;</span
+              >
+              <span v-if="device.list.length > 0" class="span">{{
+                device.list[device.index].singer
+              }}</span>
+            </marquee>
           </div>
           <div class="control-head">
             <span @click="Prev()" class="icon iconfont">&#xe61e;</span>
@@ -32,7 +61,6 @@
               >&#xe80f;</span
             >
             <span @click="Paly" v-else class="icon iconfont">&#xe65a;</span>
-            
             <span @click="Next()" class="icon iconfont">&#xe61f;</span>
             <span class="icon iconfont">&#xe660;</span>
           </div>
@@ -61,19 +89,68 @@
               <span v-else>00:00</span>
             </div>
             <div class="loop">
-              <span class="icon iconfont">&#xe66c;</span>
+              <span
+                @click="device.loop < 5 ? device.loop++ : (device.loop = 1)"
+                class="icon iconfont"
+                v-if="device.loop == 1"
+                >&#xe624;</span
+              >
+              <span
+                @click="device.loop < 5 ? device.loop++ : (device.loop = 1)"
+                class="icon iconfont"
+                v-if="device.loop == 2"
+                >&#xe6a0;</span
+              >
+              <span
+                @click="device.loop < 5 ? device.loop++ : (device.loop = 1)"
+                class="icon iconfont"
+                v-if="device.loop == 3"
+                >&#xe66c;</span
+              >
+              <span
+                @click="device.loop < 5 ? device.loop++ : (device.loop = 1)"
+                class="icon iconfont"
+                v-if="device.loop == 4"
+                >&#xe66d;</span
+              >
+              <span
+                @click="device.loop < 5 ? device.loop++ : (device.loop = 1)"
+                class="icon iconfont"
+                v-if="device.loop == 5"
+                >&#xe636;</span
+              >
             </div>
             <div class="volume">
-              <span class="icon iconfont">&#xe626;</span>
-              <!-- <span>
+              <div class="icon-div">
+                <span
+                  @mouseover="mouseOver"
+                  @mouseleave="mouseLeave"
+                  @click="Mute"
+                  v-if="device.audio.volume > 0"
+                  class="icon iconfont"
+                  >&#xe626;</span
+                >
+                <span
+                  @mouseover="mouseOver"
+                  @mouseleave="mouseLeave"
+                  @click="Mute"
+                  v-else
+                  class="icon iconfont"
+                  >&#xe655;</span
+                >
+              </div>
+              <div v-if="device.isVolumeShow" class="volume-meter-div">
                 <input
+                  @mouseover="mouseOver"
+                  @mouseleave="mouseLeave"
                   class="volume-meter"
                   type="range"
-                  value="0"
+                  v-model="device.volume"
+                  @click="setVolume"
                   min="0"
                   max="100"
                 />
-              </span> -->
+              </div>
             </div>
           </div>
         </div>
@@ -85,7 +162,8 @@
 export default {
   name: "AudioPalyer",
   props: {
-    msg: String,
+    height: Number,
+    list: Array,
   },
   data() {
     return {
@@ -99,25 +177,15 @@ export default {
         src: "",
         clock: null,
         index: 0,
-        list: [
-          {
-            title: "你的答案",
-            singer: "阿冗",
-            lrc: "[00:00.000] 作词 : 林晨阳/刘涛\n[00:01.000] 作曲 : 刘涛\n[00:09.32]制作人 Produced by 刘涛\n[00:12.09]编曲 Arranger：谭侃侃\n[00:14.60]吉他 Guitar：谭侃侃\n[00:15.15]键盘 Keyboards：谭侃侃\n[00:17.44]合声 Backing vocals：金天 胡阁\n[00:18.95]录音棚 Recording studio：北京好乐无荒录音棚\n[00:19.65]录音师 Recording Engineer：吴佳敏\n[00:20.35]混音师 Mixing Engineer：刘三斤\n[00:21.59]母带后期混音师 Mastering Engineer：刘三斤\n[00:22.20]监制 Executive producer: 陶诗\n[00:22.50]封面设计：kidult.\n[00:23.00]OP：好乐无荒\n[00:24.82]SP：亚合传媒\n[00:25.24]也许世界就这样\n[00:28.49]我也还在路上\n[00:31.13]没有人能诉说\n[00:36.21]也许我只能沉默\n[00:39.25]眼泪湿润眼眶\n[00:42.10]可又不甘懦弱\n[00:45.96]低着头 期待白昼\n[00:51.04]接受所有的嘲讽\n[00:56.31]向着风 拥抱彩虹\n[01:02.00]勇敢的向前走\n[01:06.68]黎明的那道光\n[01:09.11]会越过黑暗\n[01:11.75]打破一切恐惧我能\n[01:14.80]找到答案\n[01:17.44]哪怕要逆着光\n[01:19.88]就驱散黑暗\n[01:22.52]丢弃所有的负担\n[01:25.77]不再孤单\n[01:28.61]不再孤单\n[01:39.01]也许世界就这样\n[01:41.85]我也还在路上\n[01:44.70]没有人能诉说\n[01:49.78]也许我只能沉默\n[01:52.82]眼泪湿润眼眶\n[01:55.66]可又不甘懦弱\n[01:59.53]低着头 期待白昼\n[02:04.81]接受所有的嘲讽\n[02:10.09]向着风 拥抱彩虹\n[02:15.78]勇敢的向前走\n[02:20.45]黎明的那道光\n[02:22.48]会越过黑暗\n[02:25.12]打破一切恐惧我能\n[02:28.17]找到答案\n[02:31.21]哪怕要逆着光\n[02:33.45]就驱散黑暗\n[02:36.09]丢弃所有的负担\n[02:39.34]不再孤单\n[02:42.19]不再孤单\n[02:50.52]黎明的那道光\n[02:52.54]会越过黑暗\n[02:55.18]打破一切恐惧我能\n[02:58.03]找到答案\n[03:01.07]哪怕要逆着光\n[03:03.51]就驱散黑暗\n[03:05.95]有一万种的力量\n[03:09.20]淹没孤单\n[03:12.04]不再孤单\n",
-            src: "https://www.bugquit.com/bg/nidedaan.mp3",
-            cover:
-              "https://www.bugquit.com/wp-content/uploads/2019/12/logo-1.png",
-          },
-          {
-            title:"北京东路的日子",
-            singer: "阿冗",
-            lrc: "[00:00.000] 作词 : 汪源\n[00:01.000] 作曲 : 汪源\n[00:03.250]开始的开始 我们都是孩子\n[00:05.650]最后的最后 渴望变成天使\n[00:10.690]歌谣的歌谣 藏着童话的影子\n[00:15.430]孩子的孩子... 该要飞往哪去\n[00:23.100]开始的开始 我们都是孩子\n[00:27.690]最后的最后 渴望变成天使\n[00:32.670]歌谣的歌谣藏着童话的影子\n[00:37.800]孩子的孩子 该要飞往哪去\n[01:09.270]当某天 你若听见 有人在说那些奇怪的语言\n[01:19.820]当某天 你若看见 满街的本子还是学乐先\n[01:30.450]当某天 再唱着 这首歌会是在哪一个角落\n[01:40.850]当某天~ 再踏进~~\n[01:45.850]这校园会是哪片落叶 掉进回忆的流年\n[01:53.830]表示从 一楼到四楼的距离 原来只有三年\n[02:00.500]表示门卫叔叔食堂阿姨 很有夫妻脸\n[02:06.020]各种季风洋流都搞不懂 还有新视野\n[02:11.249]各种曾经狂热的海报照片 卖几块几毛钱\n[02:16.600]我们穿上西装假装成长 胶片挥霍习惯的笑脸\n[02:22.010]悲伤一发 寂寞唏嘘 痛的初体验\n[02:26.910]毕业和成年的字眼 格外扣人心弦\n[02:32.300]各种莫名的感伤 只说句 嘻嘻一些\n[03:04.110]十年后 你若听见 有人在说这些奇怪的语言\n[03:14.900]十年后 你若看见 满街的本子还是学乐先\n[03:28.140]表示从 一楼到四楼的距离 原来只有三年\n[03:34.280]表示门卫叔叔食堂阿姨 很有夫妻脸\n[03:39.440]各种季风洋流都搞不懂 还有新视野\n[03:44.479]各种曾经狂热的海报照片 卖几块几毛钱\n[03:50.140]我们即将分别 独自浪在 中国外国不同地点\n[03:55.180]瞥见白色校服 还会以为是我认识的谁\n[04:00.470]顾萍凡哥乌龟大师 方丈我爱你\n[04:05.340]也许谁都忘记谁的名字 但记得\n[04:09.900]北京东路的日子\n[04:14.550]开始的开始 我们都是孩子\n[04:19.770]最后的最后 渴望变成天使\n[04:24.890]歌谣的歌谣 藏着童话的影子\n[04:29.830]孩子的孩子 该要飞往哪去\n",
-            src: "https://www.bugquit.com/bg/beijingdongluderizi.mp3",
-            cover:
-              "https://www.bugquit.com/wp-content/uploads/2019/12/logo-1.png",
-
-          }
-        ],
+        list: this.list != undefined && this.list != null ? this.list : [],
+        isVolumeShow: false,
+        isVolumeShowClock: null,
+        volume: 100,
+        loop: 1, //1=顺序播放，2=随机播放，3=循环播放，4=单曲循环，5=播放完成后停止
+        lrc: [],
+        lrcShowKey:0,
+        // translateYStyle: {transform: 'translateY(-500px)'},
+        translateY: 0,
       },
     };
   },
@@ -126,10 +194,43 @@ export default {
     Paly() {
       if (!this.device.isPaly) {
         //首次播放
+        this.device.lrcShowKey = 0
         this.setAudioSrc();
         if (this.device.audio.play()) {
           this.device.isPaly = true;
           this.updateMeter();
+        }
+        //解析歌词
+         this.device.lrc = [];
+        if (
+          this.device.list[this.device.index].lrc != undefined &&
+          this.device.list[this.device.index].lrc != null &&
+          this.device.list[this.device.index].lrc != ""
+        ) {
+          let strLrc = this.device.list[this.device.index].lrc.replace(
+            /[\r\n]/g,
+            ""
+          );
+          let arrLrcTimeTmp = strLrc.match(/\[(.+?)\]/g);
+          let arrLrcTime = [];
+          let arrLrc = [];
+          strLrc = strLrc.replace(/[\[\]]/g, "");
+          arrLrcTimeTmp.forEach((element) => {
+            element = element.replace(/[\[\]]/g, "");
+            let arrTimeTmp = element.split(":");
+            arrLrcTime.push(
+              (arrTimeTmp[1] * 1 + arrTimeTmp[0] * 1 * 60).toFixed(5) * 1
+            );
+            strLrc = strLrc.replace(new RegExp(element, "g"), "\n");
+          });
+          arrLrc = strLrc.split("\n");
+          for (let i in arrLrcTime) {
+            this.device.lrc.push({
+              time: arrLrcTime[i],
+              lrc: arrLrc[i * 1 + 1],
+              show: false,
+            });
+          }
         }
       } else if (!this.device.isPause) {
         //暂停
@@ -152,11 +253,13 @@ export default {
         this.device.list.length > 0 &&
         this.device.index < this.device.list.length
       ) {
-        this.device.src = this.device.list[this.device.index].src;
-        this.device.audio.src = this.device.src; //设置音频
         this.device.duration = 100; //重置进度
         this.device.currentTime = 0; //重置进度
         this.device.isGetDuration = false; //重置进度
+        this.device.isPaly = false; //重置
+        this.device.isPause = false; //重置
+        this.device.src = this.device.list[this.device.index].src;
+        this.device.audio.src = this.device.src; //设置音频
       }
     },
     //更新进度
@@ -167,15 +270,33 @@ export default {
           this.device.isGetDuration = true;
         }
         this.device.currentTime = this.device.audio.currentTime;
+        let index = this.device.lrc.length - 1;
+        for (let i = index; i > this.device.lrcShowKey; i--) {
+          if (this.device.currentTime >= this.device.lrc[i].time) {
+            this.device.lrcShowKey = i
+            this.device.translateY = 19 * this.device.lrcShowKey;
+            break;
+          }
+        }
+
         if (this.device.currentTime >= this.device.duration) {
           this.PalyOnEnded();
         }
-      }, 1000);
+      }, 500);
     },
     //调整进度
     setCurrentTime() {
       if (this.device.isPaly) {
         this.device.audio.fastSeek(this.device.currentTime);
+        this.device.currentTime = this.device.audio.currentTime;
+        let index = this.device.lrc.length - 1;
+        for (let i = index; i > this.device.lrcShowKey; i--) {
+          if (this.device.currentTime >= this.device.lrc[i].time) {
+            this.device.lrcShowKey = i
+            this.device.translateY = 19 * this.device.lrcShowKey;
+            break;
+          }
+        }
       } else {
         this.device.currentTime = 0;
       }
@@ -185,6 +306,36 @@ export default {
       this.device.isPaly = false;
       this.device.isPause = false;
       clearInterval(this.device.clock);
+      switch (this.device.loop) {
+        case 1:
+          this.Next();
+          break;
+        case 2:
+          this.device.index = Math.round(
+            Math.floor(
+              Math.random() * (0 - this.device.list.length) +
+                this.device.list.length
+            )
+          );
+          this.setAudioSrc();
+          this.Paly();
+          break;
+        case 3:
+          if (this.device.index == this.device.list.length - 1) {
+            this.device.index = 0;
+            this.setAudioSrc();
+            this.Paly();
+          } else {
+            this.Next();
+          }
+          break;
+        case 4:
+          this.setAudioSrc();
+          this.Paly();
+          break;
+        default:
+          break;
+      }
     },
     //播放时长转分秒
     switchTime(str) {
@@ -197,7 +348,7 @@ export default {
     Prev() {
       if (this.device.index > 0) {
         this.device.index--;
-        this.setAudioSrc();
+        this.device.isPaly = false;
         this.Paly();
       }
     },
@@ -205,9 +356,37 @@ export default {
     Next() {
       if (this.device.index + 1 < this.device.list.length) {
         this.device.index++;
-        this.setAudioSrc();
+        this.device.isPaly = false;
         this.Paly();
       }
+    },
+    // 音量按钮、滑块移入
+    mouseOver() {
+      this.device.isVolumeShow = true;
+      if (this.device.isVolumeShowClock !== null) {
+        clearInterval(this.device.isVolumeShowClock);
+        this.device.isVolumeShowClock = null;
+      }
+    },
+    // 音量按钮、滑块移出
+    mouseLeave() {
+      if (this.device.isVolumeShowClock === null) {
+        this.device.isVolumeShowClock = setInterval(() => {
+          this.device.isVolumeShow = false;
+        }, 100);
+      }
+    },
+    // 静音和取消静音
+    Mute() {
+      if (this.device.audio.volume != 0) {
+        this.device.audio.volume = 0;
+      } else {
+        this.device.audio.volume = this.device.volume * 0.01;
+      }
+    },
+    //设置音量
+    setVolume() {
+      this.device.audio.volume = this.device.volume * 0.01;
     },
   },
 };

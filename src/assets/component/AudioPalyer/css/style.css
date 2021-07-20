@@ -1,3 +1,14 @@
+.audio-lrc {
+  overflow: hidden;
+  text-align: center;
+}
+.audio-lrc .content {
+  height: 100%;
+  padding-top: 18%;
+}
+.audio-lrc .content .active {
+  color: #0053ec;
+}
 .audio-info {
   height: 92px;
   width: 100%;
@@ -64,6 +75,7 @@
 .audio-info .control .footer {
   display: flex;
   justify-content: space-between;
+  margin-top: 1rem;
 }
 .audio-info .control .footer .left {
   width: 100%;
@@ -84,6 +96,24 @@
 }
 .audio-info .control .footer .right .time {
   min-width: 66px;
+}
+.audio-info .control .footer .right .volume .volume-meter-div {
+  width: 1px;
+}
+.audio-info .control .footer .right .volume .volume-meter {
+  position: relative;
+  top: -60px;
+  left: -26px;
+  width: 66px;
+  transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  /* IE 9 */
+  -moz-transform: rotate(-90deg);
+  /* Firefox */
+  -webkit-transform: rotate(-90deg);
+  /* Safari 和 Chrome */
+  -o-transform: rotate(-90deg);
+  /* Opera */
 }
 .audio-info .control .footer span {
   cursor: pointer;

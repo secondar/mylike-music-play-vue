@@ -1,6 +1,9 @@
+#app {
+  height: 50px;
+}
 #app #nav {
   text-align: center;
-  margin-top: 1rem;
+  padding-top: 1rem;
 }
 #app #nav ul {
   display: flex;
@@ -17,14 +20,4 @@
 }
 #app #nav ul .current {
   border-bottom: 2px solid #60aff0;
-}
-#audio-main {
-  margin-top: 1rem;
-  text-align: center;
-}
-#audio-main .aplayer-component {
-  position: fixed;
-  bottom: 50px;
-  width: 90%;
-  margin-left: 5%;
 }
