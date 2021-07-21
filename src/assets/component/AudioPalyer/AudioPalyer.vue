@@ -26,7 +26,6 @@
         <p>MyLikeMusic</p>
       </div>
     </div>
-
     <div
       v-if="device.isShowList"
       v-bind:style="{ top: device.clientHeight + 'px' }"
@@ -58,6 +57,8 @@
     <div class="audio-info">
       <div
         v-if="
+          device.list[device.index] != undefined &&
+          device.list[device.index] != null &&
           device.list[device.index].cover != undefined &&
           device.list[device.index].cover != null &&
           device.list[device.index].cover != ''
@@ -77,13 +78,7 @@
           <span @click="Paly" v-else class="icon iconfont">&#xe668;</span>
         </div>
       </div>
-      <div
-        v-else
-        class="cover"
-        v-bind:style="{
-          'background-image': 'url(' + device.list[device.index].cover + ')',
-        }"
-      >
+      <div class="cover" v-else>
         <div class="state">
           <span @click="Paly" v-if="!device.isPaly" class="icon iconfont"
             >&#xe60c;</span
@@ -481,6 +476,11 @@ export default {
       this.Paly();
     },
   },
+  watch:{
+    list:function(n,o){
+      this.device.list = this.list
+    }
+  }
 };
 </script>
 <style scoped>
