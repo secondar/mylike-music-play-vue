@@ -5,6 +5,10 @@
 
 ## 点这里查看  [demo](http://live.imoecg.com)
 
+# 特别说明
+
+demo中的音乐/歌词来源于网络收集，如某度网盘，知道等
+
 # 一些截图：
 
 ![avatar](http://live.imoecg.com/img/1.png)
