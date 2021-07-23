@@ -244,7 +244,7 @@ export default {
         list: this.list != undefined && this.list != null ? this.list : [],
         isVolumeShow: false,
         isVolumeShowClock: null,
-        volume: 100,
+        volume: 50,
         loop: 1, //1=顺序播放，2=随机播放，3=循环播放，4=单曲循环，5=播放完成后停止
         lrc: [],
         lrcShowKey: 0,
@@ -340,7 +340,9 @@ export default {
       this.device.clock = setInterval(() => {
         if (!this.device.isGetDuration) {
           this.device.duration = this.device.audio.duration;
-          this.device.isGetDuration = true;
+          if (this.device.duration > 0) {
+            this.device.isGetDuration = true;
+          }
         }
         this.device.currentTime = this.device.audio.currentTime;
         let index = this.device.lrc.length - 1;
@@ -413,9 +415,13 @@ export default {
     //播放时长转分秒
     switchTime(str) {
       str = (str / 60).toFixed(2);
-      str = str + ``;
-      str = str.replace(/\./g, ":");
-      return str;
+      if (str >= 0) {
+        str = str + ``;
+        str = str.replace(/\./g, ":");
+        return str;
+      }else{
+        return '0:00'
+      }
     },
     //上一曲
     Prev() {
@@ -476,11 +482,11 @@ export default {
       this.Paly();
     },
   },
-  watch:{
-    list:function(n,o){
-      this.device.list = this.list
-    }
-  }
+  watch: {
+    list: function (n, o) {
+      this.device.list = this.list;
+    },
+  },
 };
 </script>
 <style scoped>

@@ -123,6 +123,7 @@
   -o-transform: rotate(-90deg);
   /* Opera */
   height: 10px;
+  display: block;
 }
 .audio-main .audio-info .control .footer span {
   cursor: pointer;
